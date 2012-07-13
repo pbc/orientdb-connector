@@ -1,0 +1,26 @@
+# rcov generated
+coverage
+coverage.data
+
+# rdoc generated
+rdoc
+
+# yard generated
+doc
+.yardoc
+
+# bundler
+.bundle
+
+# jeweler generated
+pkg
+
+*.swp
+
+# RubyMine
+.idea
+
+# bundled gems
+vendor/bundle/*
+!vendor/bundle/.gitkeep
+
