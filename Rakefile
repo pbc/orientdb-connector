@@ -9,19 +9,24 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
+
 require 'rake'
 
+require './lib/orientdb_connector/version'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.version = OrientDBConnector::Version.current
   gem.name = "orientdb-connector"
   gem.homepage = "http://github.com/pbc/orientdb-connector"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{OrientDB Connector allows to connect to an OrientDB Server using the binary protocol}
+  gem.description = %Q{}
   gem.email = "pawel.barcik@gmail.com"
   gem.authors = ["Pawel Barcik"]
+  gem.require_path = '.'
   # dependencies defined in Gemfile
+  #gem.add_dependency('log4r', '>= 1.0.5')
 end
 Jeweler::RubygemsDotOrgTasks.new
 

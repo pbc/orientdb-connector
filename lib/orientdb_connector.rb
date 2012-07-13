@@ -1,5 +1,6 @@
+require "orientdb_connector/version"
+require "orientdb_connector/config"
+require "orientdb_connector/base"
 
-module OrientDBConnector
-
-end
-
+require "orientdb_connector/connection"
+require "orientdb_connector/client"
