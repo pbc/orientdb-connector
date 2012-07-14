@@ -1,4 +1,3 @@
-
 require "spec_helper"
 
 describe OrientDBConnector::Connection do
