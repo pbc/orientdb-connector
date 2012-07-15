@@ -33,7 +33,7 @@ module OrientDBConnector
 
           if conn
             @currently_used[conn.object_id] = conn
-          elsif current_queue_length < @max_size
+          elsif current_pool_length < @max_size
             conn = create_new_connection()
             @currently_used[conn.object_id] = conn
           else
@@ -62,7 +62,7 @@ module OrientDBConnector
       end
     end
 
-    def current_queue_length
+    def current_pool_length
       @currently_used.length + @available.length
     end
 

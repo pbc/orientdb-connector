@@ -2,9 +2,17 @@ require "spec_helper"
 
 describe OrientDBConnector::ConnectionPool do
 
+  let(:connection_pool) { OrientDBConnector::ConnectionPool.new() }
+
+  it "should have correct DEFAULT_OPTIONS" do
+    OrientDBConnector::ConnectionPool::DEFAULT_OPTIONS.should == {
+      max_size: 5,
+      timeout: 1
+    }
+  end
+
   describe "#with_connection" do
 
-    let(:connection_pool) { OrientDBConnector::ConnectionPool.new() }
     let(:timeout_error) { OrientDBConnector::TimeoutError }
 
     it "should raise TimeoutError after specified amount of time if a connection can't be acquired from the pool" do
@@ -79,7 +87,54 @@ describe OrientDBConnector::ConnectionPool do
   end
 
 
+  describe "#release_connection" do
 
+    let(:connection_pool) { OrientDBConnector::ConnectionPool.new() }
 
+    it "should broadcast to other threads" do
+      conn = stub(foo: 123).as_null_object
+      connection_pool.instance_variable_get(:@mutex_condition).should_receive(:broadcast)
+      connection_pool.release_connection conn
+    end
+
+    context "when provided connection is nil" do
+      it "should not add the connection to available connections" do
+        connection_pool.release_connection nil
+        connection_pool.instance_variable_get(:@available).member?(nil).should == false
+      end
+    end
+
+    context "when provided connection is not nil" do
+
+      it "should add the connection to available connections" do
+        connection_pool.release_connection :foo
+        connection_pool.instance_variable_get(:@available).member?(:foo).should == true
+      end
+
+      it "should remove the connection from currently used connections" do
+        conn = stub(foo: 123).as_null_object
+        connection_pool.instance_variable_get(:@currently_used).should_receive(:delete).with(conn.object_id)
+        connection_pool.release_connection conn
+      end
+
+    end
+
+  end
+
+  describe "#current_pool_length" do
+
+    it "should provide a sum of currently used and currently available connections" do
+      connection_pool.instance_variable_set(:@available, [:foo, :bar])
+      connection_pool.instance_variable_set(:@currently_used, { :foo2 => 1, :bar2 => 2, :baz3 => 3 })
+      connection_pool.current_pool_length.should == 5
+    end
+
+  end
+
+  describe "#create_new_connection" do
+    it "should return new connection" do
+      connection_pool.create_new_connection.should be_a(::OrientDBConnector::Connection)
+    end
+  end
 
 end
