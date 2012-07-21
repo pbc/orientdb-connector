@@ -9,12 +9,18 @@ module OrientDBConnector
 
   class ConnectionPool
 
-    DEFAULT_OPTIONS = { max_size: 5, timeout: 1 }
+    DEFAULT_OPTIONS = {
+      max_size: 5,
+      timeout: 1,
+      connection_params: {}
+    }
 
     def initialize(options = {})
       options = DEFAULT_OPTIONS.merge(options)
+
       @max_size = options[:max_size]
       @timeout = options[:timeout]
+      @connection_params = options[:connection_params]
 
       @mutex = Mutex.new
       @mutex_condition = ConditionVariable.new
@@ -66,8 +72,23 @@ module OrientDBConnector
       @currently_used.length + @available.length
     end
 
-    def create_new_connection
-      ::OrientDBConnector::Connection.new()
+    def create_new_connection(options={})
+      options = @connection_params.dup if options.length == 0
+      ::OrientDBConnector::Connection.new(options)
+    end
+
+    def close(soft = false)
+      @mutex.synchronize do
+        @available.each do |conn|
+          conn.close
+        end
+
+        unless soft
+          @currently_used.each do |conn|
+            conn.close
+          end
+        end
+      end
     end
 
   end

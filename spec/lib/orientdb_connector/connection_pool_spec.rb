@@ -2,13 +2,25 @@ require "spec_helper"
 
 describe OrientDBConnector::ConnectionPool do
 
-  let(:connection_pool) { OrientDBConnector::ConnectionPool.new() }
+  let(:connection_pool) { OrientDBConnector::ConnectionPool.new(connection_params: ORIENT_CONN_PARAMS) }
 
   it "should have correct DEFAULT_OPTIONS" do
     OrientDBConnector::ConnectionPool::DEFAULT_OPTIONS.should == {
       max_size: 5,
-      timeout: 1
+      timeout: 1,
+      connection_params: {}
     }
+  end
+
+  context "when used with a block" do
+
+    it "should yield connection to the block" do
+
+      connection_pool.with_connection do |conn|
+        conn.should be_a(OrientDBConnector::Connection)
+      end
+    end
+
   end
 
   describe "#with_connection" do
@@ -74,47 +86,37 @@ describe OrientDBConnector::ConnectionPool do
 
     end
 
-    context "when used with a block" do
-
-      it "should yield connection to the block" do
-        connection_pool.with_connection do |connection|
-          connection.should be_a(OrientDBConnector::Connection)
-        end
-      end
-
-    end
-
   end
 
 
   describe "#release_connection" do
 
-    let(:connection_pool) { OrientDBConnector::ConnectionPool.new() }
+    let(:conn_pool) { OrientDBConnector::ConnectionPool.new() }
 
     it "should broadcast to other threads" do
       conn = stub(foo: 123).as_null_object
-      connection_pool.instance_variable_get(:@mutex_condition).should_receive(:broadcast)
-      connection_pool.release_connection conn
+      conn_pool.instance_variable_get(:@mutex_condition).should_receive(:broadcast)
+      conn_pool.release_connection conn
     end
 
     context "when provided connection is nil" do
       it "should not add the connection to available connections" do
-        connection_pool.release_connection nil
-        connection_pool.instance_variable_get(:@available).member?(nil).should == false
+        conn_pool.release_connection nil
+        conn_pool.instance_variable_get(:@available).member?(nil).should == false
       end
     end
 
     context "when provided connection is not nil" do
 
       it "should add the connection to available connections" do
-        connection_pool.release_connection :foo
-        connection_pool.instance_variable_get(:@available).member?(:foo).should == true
+        conn_pool.release_connection :foo
+        conn_pool.instance_variable_get(:@available).member?(:foo).should == true
       end
 
       it "should remove the connection from currently used connections" do
         conn = stub(foo: 123).as_null_object
-        connection_pool.instance_variable_get(:@currently_used).should_receive(:delete).with(conn.object_id)
-        connection_pool.release_connection conn
+        conn_pool.instance_variable_get(:@currently_used).should_receive(:delete).with(conn.object_id)
+        conn_pool.release_connection conn
       end
 
     end

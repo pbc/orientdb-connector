@@ -5,10 +5,15 @@ require "orientdb_connector"
 
 Dir[File.join("spec/support/**/*.rb")].each {|f| require f}
 
-OrientDBConnector::Base.config.connection_params = {
+ORIENT_CONN_PARAMS = {
+  host: "localhost",
   port: 2424,
-  host: "127.0.0.1"
+  socket_type: "tcp"
 }
+
+OrientDBConnector::Base.configure do
+  config.connection_params = ORIENT_CONN_PARAMS
+end
 
 RSpec.configure do |config|
 

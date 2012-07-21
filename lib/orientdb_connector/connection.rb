@@ -1,18 +1,37 @@
+require "socket"
+
 module OrientDBConnector
 
   class Connection
 
-    def initialize(options = nil)
-      options = OrientDBConnector::Base.config.connection_params if options.nil?
+    attr_accessor :socket
+
+    def initialize(options = {})
       @host = options[:host]
       @port = options[:port]
+      @socket = open_socket(options[:socket_type])
       #@user = options[:user]
       #@password = options[:password]
     end
 
+    def close
+      socket.close
+    end
 
+    def open_socket(socket_type = :tcp)
+      socket_type = socket_type.to_sym
+      if socket_type == :tcp
+        TCPSocket.open(host,port)
+      end
+    end
 
+    def host
+      @host
+    end
 
+    def port
+      @port
+    end
 
   end
 
