@@ -18,6 +18,8 @@ module OrientDBConnector
       self
     end
 
+
+
     def close_connection
       connection_pool.close
     end

@@ -14,6 +14,22 @@ module OrientDBConnector
       #@password = options[:password]
     end
 
+    def send_raw_request(request)
+      socket.puts(request)
+    end
+
+    def get_raw_response
+      resp = ""
+      until socket.closed? || socket.eof?
+        partial_data = socket.gets(256)
+        break if partial_data.nil?
+        puts "reading stuff :)"
+        resp += partial_data
+      end
+      puts "finished reading stuff :)"
+      resp
+    end
+
     def close
       socket.close
     end

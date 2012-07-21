@@ -25,8 +25,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "pawel.barcik@gmail.com"
   gem.authors = ["Pawel Barcik"]
   gem.require_path = '.'
-  # dependencies defined in Gemfile
-  #gem.add_dependency('log4r', '>= 1.0.5')
+  gem.add_dependency('bindata', '~> 1.4.4')
 end
 Jeweler::RubygemsDotOrgTasks.new
 
