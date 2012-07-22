@@ -3,7 +3,8 @@ module OrientDBConnector
 
     attr_reader :connection_pool
 
-    def initialize
+    def initialize(custom_connection_params = nil)
+      @connection_params = custom_connection_params if custom_connection_params
       @connection_pool = ::OrientDBConnector::ConnectionPool.new(connection_params: connection_params)
     end
 

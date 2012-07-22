@@ -15,18 +15,15 @@ module OrientDBConnector
     end
 
     def send_raw_request(request)
-      socket.puts(request)
+      socket.write(request)
     end
 
     def get_raw_response
       resp = ""
-      until socket.closed? || socket.eof?
-        partial_data = socket.gets(256)
+      until partial_data = socket.gets
         break if partial_data.nil?
-        puts "reading stuff :)"
         resp += partial_data
       end
-      puts "finished reading stuff :)"
       resp
     end
 
@@ -37,7 +34,7 @@ module OrientDBConnector
     def open_socket(socket_type = :tcp)
       socket_type = socket_type.to_sym
       if socket_type == :tcp
-        TCPSocket.open(host,port)
+        OrientDBConnector::Utils::TCPSocket.new(host,port)
       end
     end
 
