@@ -14,4 +14,5 @@ require "orientdb_connector/connection"
 require "orientdb_connector/connection_pool"
 require "orientdb_connector/client"
 
+require "orientdb_connector/primitive_types"
 require "orientdb_connector/commands"

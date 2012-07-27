@@ -4,12 +4,12 @@ module OrientDBConnector
       class Connect < BinData::Record
 
         endian :big
-        string :driver_name
-        string :driver_version
+        compound_string :driver_name
+        compound_string :driver_version
         int16 :protocol_version
-        string :client_id
-        string :user_name
-        string :user_password
+        compound_string :client_id
+        compound_string :user_name
+        compound_string :user_password
 
       end
     end

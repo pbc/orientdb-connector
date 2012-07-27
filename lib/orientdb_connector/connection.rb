@@ -21,9 +21,9 @@ module OrientDBConnector
     def get_raw_response
       resp = ""
       until partial_data = socket.gets
-        break if partial_data.nil?
         resp += partial_data
       end
+      puts partial_data.inspect
       resp
     end
 

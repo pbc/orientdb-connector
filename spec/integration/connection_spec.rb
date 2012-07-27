@@ -25,17 +25,29 @@ describe "Connection" do
     # Request: (driver-name:string)(driver-version:string)(protocol-version:short)(client-id:string)(user-name:string)(user-password:string)
     # Response: (session-id:int)
     it "should be able to send binary requests" do
-      lambda {
-        client.use_connection do |conn|
-          request = OrientDBConnector::Commands::Request::Connect
-          request.driver_name = "foo bar driver"
-          request.driver_version = "1.2.3"
 
-          conn.send_raw_request("foobar")
-          conn.get_raw_response
-        end
-      }.should_not raise_error()
+      request = OrientDBConnector::Commands::Requests::Connect.new()
+      request.driver_name = "123foo bar driver"
+      request.driver_version = "1.2.3"
+      request.protocol_version = 12
+      request.client_id = ""
+      request.user_name = "root"
+      request.user_password = "root"
+
+      #lambda {
+      client.use_connection do |conn|
+        puts request.to_binary_s.inspect
+        conn.send_raw_request(request.to_binary_s)
+        puts conn.get_raw_response.inspect
+      end
+
       client.close_connection
+
+      #}.should_not raise_error()
+
+      #print request.to_binary_s
+
+
     end
 
   end
