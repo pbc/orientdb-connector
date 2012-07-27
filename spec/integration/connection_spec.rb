@@ -27,6 +27,10 @@ describe "Connection" do
     it "should be able to send binary requests" do
       lambda {
         client.use_connection do |conn|
+          request = OrientDBConnector::Commands::Request::Connect
+          request.driver_name = "foo bar driver"
+          request.driver_version = "1.2.3"
+
           conn.send_raw_request("foobar")
           conn.get_raw_response
         end
