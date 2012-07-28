@@ -22,9 +22,7 @@ describe "Connection" do
 
   context "connection" do
 
-    # Request: (driver-name:string)(driver-version:string)(protocol-version:short)(client-id:string)(user-name:string)(user-password:string)
-    # Response: (session-id:int)
-    it "should be able to send CONNECT request" do
+    it "should be able to send raw requests correctly and get correct raw response" do
 
       request = OrientDBConnector::Protocol::Commands::Requests::Connect.new()
       request.session_id = -1
