@@ -24,31 +24,42 @@ describe "Connection" do
 
     # Request: (driver-name:string)(driver-version:string)(protocol-version:short)(client-id:string)(user-name:string)(user-password:string)
     # Response: (session-id:int)
-    it "should be able to send binary requests" do
+    it "should be able to send CONNECT request" do
 
-      request = OrientDBConnector::Commands::Requests::Connect.new()
-      request.driver_name = "123foo bar driver"
-      request.driver_version = "1.2.3"
-      request.protocol_version = 12
+      request = OrientDBConnector::Protocol::Commands::Requests::Connect.new()
+      request.session_id = -1
+      request.driver_name = "OrientDBConnector driver"
+      request.driver_version = OrientDBConnector::Version.current
+      request.protocol_version = OrientDBConnector::Protocol::VERSION
       request.client_id = ""
-      request.user_name = "root"
-      request.user_password = "root"
+      request.user_name = "test"
+      request.user_password = "test"
 
-      #lambda {
+      raw_response = ""
+      response = nil
+
       client.use_connection do |conn|
-        puts "getting protocol number"
-        puts conn.get_raw_response.inspect
-        #puts request.to_binary_s.inspect
-        #conn.send_raw_request(request.to_binary_s)
-        #puts conn.get_raw_response.inspect
+
+        # fetch protocol ID
+        conn.get_raw_response
+
+        conn.send_raw_request(request.to_binary_s)
+        raw_response << conn.get_raw_response
+
+        if raw_response.getbyte(0).to_i == 1
+          response = OrientDBConnector::Protocol::Commands::Responses::Error.new()
+        else
+          response = OrientDBConnector::Protocol::Commands::Responses::Connect.new()
+        end
+
+        response.read(raw_response)
+        response.class.should == OrientDBConnector::Protocol::Commands::Responses::Connect
+        response.new_session_id.should > 0
+        response.session_id.should == request.session_id
+
       end
 
       client.close_connection
-
-      #}.should_not raise_error()
-
-      #print request.to_binary_s
-
 
     end
 

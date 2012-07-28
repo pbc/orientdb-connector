@@ -4,7 +4,7 @@ module OrientDBConnector
   module Utils
     class TCPSocket
 
-      def initialize(host,port,operation_timeout=0.5)
+      def initialize(host,port,operation_timeout=0.2)
 
         # [["AF_INET", 0, "localhost", "127.0.0.1", 2, 1, 6],  # PF_INET/SOCK_STREAM/IPPROTO_TCP
         #  ["AF_INET", 0, "localhost", "127.0.0.1", 2, 2, 17], # PF_INET/SOCK_DGRAM/IPPROTO_UDP
@@ -53,7 +53,7 @@ module OrientDBConnector
       def read_nonblock(length=256)
         data = ""
         current_retry_count = 0
-        max_continuous_retry_count = 3
+        max_continuous_retry_count = 2
 
         begin
           data << @socket.read_nonblock(length)
