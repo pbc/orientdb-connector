@@ -51,26 +51,27 @@ module OrientDBConnector
 
       # IO.read needs a positive integer to trigger binary mode and prevent any character conversions
       def read_nonblock(length=256)
-        wait_for_readable_state
-        data = @socket.read_nonblock(length)
+        data = ""
+        current_retry_count = 0
+        max_continuous_retry_count = 3
+
+        begin
+          data << @socket.read_nonblock(length)
+          current_retry_count = 0
+        rescue IO::WaitReadable
+          current_retry_count += 1
+          wait_for_readable_state
+          retry if current_retry_count < max_continuous_retry_count
+        rescue EOFError
+          #do nothing
+        end
         !data.nil? && data.length > 0 ? data : nil
       end
 
       def gets
         data = ""
-        current_retry_count = 0
-        max_continuous_retry_count = 3
-        begin
-          while partial_data = read_nonblock()
-            data += partial_data
-            current_retry_count = 0
-          end
-        rescue Errno::EAGAIN
-          wait_for_readable_state
-          current_retry_count += 1
-          retry if max_continuous_retry_count < 3
-        rescue EOFError
-          #do nothing
+        while partial_data = read_nonblock()
+          data << partial_data
         end
         data.length > 0 ? data : nil
       end

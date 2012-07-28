@@ -36,9 +36,11 @@ describe "Connection" do
 
       #lambda {
       client.use_connection do |conn|
-        puts request.to_binary_s.inspect
-        conn.send_raw_request(request.to_binary_s)
+        puts "getting protocol number"
         puts conn.get_raw_response.inspect
+        #puts request.to_binary_s.inspect
+        #conn.send_raw_request(request.to_binary_s)
+        #puts conn.get_raw_response.inspect
       end
 
       client.close_connection
