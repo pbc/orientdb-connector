@@ -1,6 +1,9 @@
 require "rubygems"
 require "bundler/setup"
 
+require 'simplecov'
+SimpleCov.start
+
 require "orientdb_connector"
 
 Dir[File.join("spec/support/**/*.rb")].each {|f| require f}
@@ -8,7 +11,9 @@ Dir[File.join("spec/support/**/*.rb")].each {|f| require f}
 ORIENT_CONN_PARAMS = {
   host: "localhost",
   port: 2424,
-  socket_type: "tcp"
+  socket_type: "tcp",
+  user: "test",
+  password: "test"
 }
 
 OrientDBConnector::Base.configure do
