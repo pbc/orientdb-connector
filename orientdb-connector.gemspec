@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Pawel Barcik"]
-  s.date = "2012-07-21"
+  s.date = "2012-10-06"
   s.description = ""
   s.email = "pawel.barcik@gmail.com"
   s.extra_rdoc_files = [
@@ -26,22 +26,32 @@ Gem::Specification.new do |s|
     "Rakefile",
     "lib/orientdb_connector.rb",
     "lib/orientdb_connector/base.rb",
+    "lib/orientdb_connector/binary_types.rb",
+    "lib/orientdb_connector/binary_types/primitive.rb",
+    "lib/orientdb_connector/binary_types/primitive/string32.rb",
     "lib/orientdb_connector/client.rb",
-    "lib/orientdb_connector/commands.rb",
-    "lib/orientdb_connector/commands/requests.rb",
-    "lib/orientdb_connector/commands/requests/connect.rb",
-    "lib/orientdb_connector/commands/responses.rb",
-    "lib/orientdb_connector/commands/responses/connect.rb",
     "lib/orientdb_connector/config.rb",
     "lib/orientdb_connector/connection.rb",
     "lib/orientdb_connector/connection_pool.rb",
+    "lib/orientdb_connector/protocol.rb",
+    "lib/orientdb_connector/protocol/commands.rb",
+    "lib/orientdb_connector/protocol/commands/request_factory.rb",
+    "lib/orientdb_connector/protocol/commands/requests.rb",
+    "lib/orientdb_connector/protocol/commands/requests/connect.rb",
+    "lib/orientdb_connector/protocol/commands/response_factory.rb",
+    "lib/orientdb_connector/protocol/commands/responses.rb",
+    "lib/orientdb_connector/protocol/commands/responses/connect.rb",
+    "lib/orientdb_connector/protocol/commands/responses/error.rb",
+    "lib/orientdb_connector/protocol/response_statuses.rb",
+    "lib/orientdb_connector/simple_client.rb",
+    "lib/orientdb_connector/utils.rb",
+    "lib/orientdb_connector/utils/tcp_socket.rb",
     "lib/orientdb_connector/version.rb",
     "orientdb-connector.gemspec",
     "spec/integration/connection_spec.rb",
     "spec/lib/orientdb_connector/client_spec.rb",
     "spec/lib/orientdb_connector/connection_pool_spec.rb",
     "spec/lib/orientdb_connector/connection_spec.rb",
-    "spec/lib/orientdb_connector/operation_types.rb",
     "spec/lib/orientdb_connector_spec.rb",
     "spec/spec_helper.rb",
     "vendor/bundle/.gitkeep"
@@ -59,22 +69,22 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<orientdb-connector>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.1.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_development_dependency(%q<simplecov>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.11.0"])
+      s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_runtime_dependency(%q<bindata>, ["~> 1.4.4"])
@@ -82,22 +92,22 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<orientdb-connector>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<rspec>, ["~> 2.11.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.1.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_dependency(%q<simplecov>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["~> 2.11.0"])
+      s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<bindata>, ["~> 1.4.4"])
@@ -106,22 +116,22 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<orientdb-connector>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.11.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.11.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.11.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<rspec>, ["~> 2.11.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.1.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+    s.add_dependency(%q<simplecov>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["~> 2.11.0"])
+    s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<bindata>, ["~> 1.4.4"])
