@@ -4,7 +4,7 @@ require "spec_helper"
 describe "Connection" do
 
   let(:simple_client) { OrientDBConnector::SimpleClient.new() }
-  let(:disconnected_client) { OrientDBConnector::Client.new(OrientDBConnector::Base.config.connection_params.merge({:port => 3000})) }
+  #let(:disconnected_client) { OrientDBConnector::Client.new(OrientDBConnector::Base.config.connection_params.merge({:port => 3000})) }
 
   context "simple client" do
 
@@ -15,7 +15,7 @@ describe "Connection" do
         conn.port.should == 2424
         conn.socket.should be_a(OrientDBConnector::Utils::TCPSocket)
       end
-      simple_client.close_connection
+      simple_client.close_all_connections
     end
 
     context "raw requests" do
@@ -77,7 +77,7 @@ describe "Connection" do
 
         end
 
-        simple_client.close_connection
+        simple_client.close_all_connections
 
       end
 
@@ -117,6 +117,7 @@ describe "Connection" do
       context "#server_connect" do
 
         it "should work correctly" do
+          pending
           #simple_client.server_connect()
         end
 
@@ -124,6 +125,7 @@ describe "Connection" do
 
       context "#db_connect()" do
         it "should work correctly" do
+          pending
           #simple_client.db_connect()
         end
       end

@@ -32,6 +32,8 @@ module OrientDBConnector
       socket_type = socket_type.to_sym
       if socket_type == :tcp
         OrientDBConnector::Utils::TCPSocket.new(host,port)
+      else
+        raise StandardError.new("provided socket type is not supported")
       end
     end
 

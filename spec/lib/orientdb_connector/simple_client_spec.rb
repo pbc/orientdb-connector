@@ -1,9 +1,9 @@
 require "spec_helper"
 require "lib/orientdb_connector"
 
-describe OrientDBConnector::Client do
+describe OrientDBConnector::SimpleClient do
 
-  let(:client) { OrientDBConnector::Client.new }
+  let(:client) { OrientDBConnector::SimpleClient.new }
 
   describe "#connection_params" do
 
@@ -43,10 +43,10 @@ describe OrientDBConnector::Client do
   end
 
 
-  describe "#close_connection" do
+  describe "#close_all_connections" do
     it "should close pool connections" do
       client.instance_variable_get(:@connection_pool).should_receive :close
-      client.close_connection
+      client.close_all_connections
     end
   end
 

@@ -20,7 +20,7 @@ module OrientDBConnector
     end
 
     # if soft == true then we close only the connections which are not being used by other threads
-    def close_connection(soft=true)
+    def close_all_connections(soft=true)
       connection_pool.close(soft)
     end
 
