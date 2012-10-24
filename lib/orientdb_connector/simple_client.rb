@@ -33,6 +33,14 @@ module OrientDBConnector
       response
     end
 
+    def create_response_object(type)
+      ::OrientDBConnector::Protocol::Commands::ResponseFactory.create(type)
+    end
+
+    def create_request_object(type)
+      ::OrientDBConnector::Protocol::Commands::RequestFactory.create(type)
+    end
+
     private
 
       def create_response(command, raw_response)
@@ -42,11 +50,6 @@ module OrientDBConnector
           create_response_object(command).read(raw_response)
         end
       end
-
-      def create_response_object(type)
-        ::OrientDBConnector::Protocol::Commands::ResponseFactory.create(type)
-      end
-
 
   end
 end

@@ -17,7 +17,6 @@ require "orientdb_connector/utils"
 require "orientdb_connector/connection"
 require "orientdb_connector/connection_pool"
 require "orientdb_connector/simple_client"
-require "orientdb_connector/client"
 
 require "orientdb_connector/binary_types"
 require "orientdb_connector/protocol"
