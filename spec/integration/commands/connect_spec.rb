@@ -6,7 +6,9 @@ describe "CONNECT command" do
 
   it "should be possible to send CONNECT request and receive CONNECT response" do
 
-    request = OrientDBConnector::Protocol::Commands::Requests::Connect.new()
+    request = simple_client.create_request_object(:connect)
+    request.class.should == OrientDBConnector::Protocol::Commands::Requests::Connect
+
     request.session_id = -123
     request.driver_name = OrientDBConnector::DRIVER_NAME
     request.driver_version = OrientDBConnector::DRIVER_VERSION

@@ -5,8 +5,6 @@ module OrientDBConnector
 
         class DBOpen < BinData::Record
 
-          #Response: (session-id:int)(num-of-clusters:short)[(cluster-name:string)(cluster-id:short)(cluster-type:string)(cluster-dataSegmentId:short)](cluster-config:bytes)
-
           endian :big
           int8 :response_status
           int32 :session_id

@@ -5,11 +5,9 @@ module OrientDBConnector
 
         class DBOpen < BinData::Record
 
-          #Request:  (driver-name:string)(driver-version:string)(protocol-version:short)(client-id:string)(database-name:string)(database-type:string)(user-name:string)(user-password:string)
-
           endian :big
 
-          int8 :operation_type, :value => OrientDBConnector::Protocol::Commands::DB_OPEN
+          int8 :operation_type, :value => OrientDBConnector::Protocol::Commands::COMMAND_DATA[:DB_OPEN][:code]
 
           #negative number here will allow to obtain new session
           int32 :session_id, :initial_value => -1111
