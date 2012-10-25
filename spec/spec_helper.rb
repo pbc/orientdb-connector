@@ -2,7 +2,7 @@ require "rubygems"
 require "bundler/setup"
 
 require 'simplecov'
-SimpleCov.start
+#SimpleCov.start
 
 require "orientdb_connector"
 
@@ -12,8 +12,15 @@ ORIENT_CONN_PARAMS = {
   host: "localhost",
   port: 2424,
   socket_type: "tcp",
+  socket_operation_timeout: 0.6,
+  socket_connection_timeout: 3,
   user: "test",
   password: "test"
+}
+
+DOCUMENT_DB_PARAMS = {
+  :name => "orientdb_connector/development_document",
+  :type => "document"
 }
 
 GRAPH_DB_PARAMS = {
@@ -21,10 +28,11 @@ GRAPH_DB_PARAMS = {
   :type => "graph"
 }
 
-DOCUMENT_DB_PARAMS = {
-  :name => "orientdb_connector/development_document",
-  :type => "document"
-}
+# select correct assignment here to test with different types of databases
+#
+# DB_PARAMS = DOCUMENT_DB_PARAMS
+DB_PARAMS = GRAPH_DB_PARAMS
+
 
 OrientDBConnector::Base.configure do
   config.connection_params = ORIENT_CONN_PARAMS

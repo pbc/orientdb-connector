@@ -6,6 +6,7 @@ module OrientDBConnector
         class DBOpen < BinData::Record
 
           endian :big
+
           int8 :response_status
           int32 :session_id
 

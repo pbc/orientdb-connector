@@ -2,9 +2,10 @@ module OrientDBConnector
   class SimpleClient
 
     attr_reader :connection_pool
+    attr_reader :last_raw_response
 
     def initialize(custom_connection_params = nil)
-      @connection_params = custom_connection_params if custom_connection_params
+      @connection_params = custom_connection_params
       @connection_pool = ::OrientDBConnector::ConnectionPool.new(connection_params: connection_params)
     end
 
@@ -28,7 +29,8 @@ module OrientDBConnector
       response = nil
       use_connection do |conn|
         conn.send_raw_request(request_object.to_binary_s)
-        response = create_response(command, conn.get_raw_response)
+        @last_raw_response = conn.get_raw_response
+        response = create_response(command, @last_raw_response)
       end
       response
     end
@@ -44,7 +46,9 @@ module OrientDBConnector
     private
 
       def create_response(command, raw_response)
-        if raw_response.getbyte(0).to_i == 1
+        if raw_response.nil?
+          create_response_object(command).read(raw_response)
+        elsif raw_response.getbyte(0).to_i == 1
           create_response_object(:error).read(raw_response)
         else
           create_response_object(command).read(raw_response)
