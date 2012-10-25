@@ -12,10 +12,12 @@ module OrientDBConnector
           int32 :new_session_id
           int16 :number_of_clusters
 
-          string32 :cluster_name
-          int16 :cluster_id
-          string32 :cluster_type
-          int16 :cluster_data_segment_id
+          array :clusters, :initial_length => :number_of_clusters do
+            string32 :cluster_name
+            int16 :cluster_id
+            string32 :cluster_type
+            int16 :cluster_data_segment_id
+          end
 
           bytes32 :cluster_config
 
