@@ -16,10 +16,9 @@ describe "DB_CLOSE command" do
       db_close_request.class.should == OrientDBConnector::Protocol::Commands::Requests::DBClose
       db_close_request.session_id = db_open_response.new_session_id
 
-      db_close_response = simple_client.send_request(:db_close, db_close_request)
-      db_close_response.class.should == OrientDBConnector::Protocol::Commands::Responses::DBClose
-
-      # DB wont return anything, it will just close the connection
+      # dont expect any response because DB wont return anything, it will just close the connection
+      db_close_response = simple_client.send_request(:db_close, db_close_request, false)
+      db_close_response.should == nil
       simple_client.last_raw_response.should == nil
 
     end

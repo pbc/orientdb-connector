@@ -36,7 +36,7 @@ describe "simple client" do
       simple_client.use_connection do |conn|
 
         conn.send_raw_request(request.to_binary_s)
-        raw_response << conn.get_raw_response
+        raw_response << conn.read_raw_response
 
         if raw_response.getbyte(0).to_i == 1
           response = OrientDBConnector::Protocol::Commands::Responses::Error.new()
@@ -59,7 +59,7 @@ describe "simple client" do
       simple_client.use_connection do |conn|
 
         conn.send_raw_request(request.to_binary_s)
-        raw_response << conn.get_raw_response
+        raw_response << conn.read_raw_response
 
         if raw_response.getbyte(0).to_i == 1
           response = OrientDBConnector::Protocol::Commands::Responses::Error.new()

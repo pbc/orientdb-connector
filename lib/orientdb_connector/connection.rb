@@ -18,14 +18,14 @@ module OrientDBConnector
       @socket = open_socket(options[:socket_type])
 
       # we have to read 2 byte protocol ID right after establishing new connection
-      @protocol_version = BinData::Int16be.read(self.get_raw_response)
+      @protocol_version = BinData::Int16be.read(self.read_raw_response)
     end
 
     def send_raw_request(request)
       socket.write(request)
     end
 
-    def get_raw_response
+    def read_raw_response
       socket.read
     end
 

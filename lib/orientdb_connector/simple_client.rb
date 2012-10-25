@@ -25,14 +25,23 @@ module OrientDBConnector
       connection_pool.close(soft)
     end
 
-    def send_request(command, request_object)
+    def send_request(command, request_object, has_response = true)
       response = nil
       use_connection do |conn|
         conn.send_raw_request(request_object.to_binary_s)
-        @last_raw_response = conn.get_raw_response
-        response = create_response(command, @last_raw_response)
+        response = process_connection_response(command, conn, has_response)
       end
       response
+    end
+
+    def process_connection_response(command, conn, is_expecting_response)
+      if is_expecting_response
+        @last_raw_response = conn.read_raw_response
+        create_response(command, @last_raw_response)
+      else
+        @last_raw_response = nil
+        return nil
+      end
     end
 
     def create_response_object(type)
