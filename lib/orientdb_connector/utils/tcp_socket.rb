@@ -76,7 +76,7 @@ module OrientDBConnector
         rescue Errno::EAGAIN
           wait_for_readable_state
           retry
-        rescue Errno::EOFError
+        rescue EOFError
           # do nothing
         end
 
