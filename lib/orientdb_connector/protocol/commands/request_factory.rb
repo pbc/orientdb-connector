@@ -4,7 +4,7 @@ module OrientDBConnector
       class RequestFactory
         class << self
           def request_class(command_type)
-            OrientDBConnector::Protocol::Commands::COMMAND_DATA[command_type.to_s.upcase.to_sym][:request_class]
+            OrientDBConnector::Protocol::PROTOCOL_DATA[command_type.to_s.upcase.to_sym][:request_class]
           end
 
           def create(command_type, *args)

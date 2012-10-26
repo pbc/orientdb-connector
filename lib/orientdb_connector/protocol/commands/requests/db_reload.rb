@@ -3,11 +3,11 @@ module OrientDBConnector
     module Commands
       module Requests
 
-        class DBClose < BinData::Record
+        class DBReload < BinData::Record
 
           endian :big
 
-          int8 :operation_type, :value => OrientDBConnector::Protocol::PROTOCOL_DATA[:DB_CLOSE][:code]
+          int8 :operation_type, :value => OrientDBConnector::Protocol::PROTOCOL_DATA[:DB_RELOAD][:code]
 
           int32 :session_id
 

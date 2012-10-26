@@ -7,7 +7,7 @@ module OrientDBConnector
 
           endian :big
 
-          int8 :operation_type, :value => OrientDBConnector::Protocol::Commands::COMMAND_DATA[:DB_EXIST][:code]
+          int8 :operation_type, :value => OrientDBConnector::Protocol::PROTOCOL_DATA[:DB_EXIST][:code]
 
           int32 :session_id
 

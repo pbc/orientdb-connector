@@ -7,7 +7,7 @@ module OrientDBConnector
 
           endian :big
 
-          int8 :operation_type, :value => OrientDBConnector::Protocol::Commands::COMMAND_DATA[:DB_OPEN][:code]
+          int8 :operation_type, :value => OrientDBConnector::Protocol::PROTOCOL_DATA[:DB_OPEN][:code]
 
           #negative number here will allow to obtain new session
           int32 :session_id, :initial_value => -1111
