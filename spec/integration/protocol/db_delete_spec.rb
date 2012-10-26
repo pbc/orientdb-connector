@@ -38,7 +38,9 @@ describe "DB_DELETE command" do
         db_delete_response.response_status.should == 0
         db_delete_response.session_id.should == connect_response.new_session_id
 
-        db_delete_response.result.should == 1
+        # trigger errors
+        second_db_delete_response = simple_client.send_request(:db_delete, db_delete_request)
+        second_db_delete_response.class.should == OrientDBConnector::Protocol::Commands::Responses::Error
 
         simple_client.close_all_connections
 
@@ -77,7 +79,9 @@ describe "DB_DELETE command" do
         db_delete_response.response_status.should == 0
         db_delete_response.session_id.should == connect_response.new_session_id
 
-        db_delete_response.result.should == 1
+        # trigger errors
+        second_db_delete_response = simple_client.send_request(:db_delete, db_delete_request)
+        second_db_delete_response.class.should == OrientDBConnector::Protocol::Commands::Responses::Error
 
         simple_client.close_all_connections
 

@@ -10,8 +10,6 @@ module OrientDBConnector
           int8 :response_status
           int32 :session_id
 
-          int8 :result
-
         end
 
       end
