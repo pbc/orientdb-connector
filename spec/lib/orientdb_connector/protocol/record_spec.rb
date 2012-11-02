@@ -14,10 +14,14 @@ describe OrientDBConnector::Protocol::Record do
   context "#serialize_string" do
     it "should escape properly double quote characters" do
       record.serialize_string('"').should == '\"'
+      record.serialize_string('" " " " " " "').should == '\" \" \" \" \" \" \"'
+      record.serialize_string('"""""""').should == '\"\"\"\"\"\"\"'
     end
 
     it "should escape backslash characters" do
       record.serialize_string('\\').should == '\\\\'
+      record.serialize_string('\\ \\ \\ \\ \\').should == '\\\\ \\\\ \\\\ \\\\ \\\\'
+      record.serialize_string('\\\\\\\\\\').should == '\\\\\\\\\\\\\\\\\\\\'
     end
 
     it "should return correctly serialized string" do
