@@ -18,10 +18,15 @@ ORIENT_CONN_PARAMS = {
   password: "test"
 }
 
+# create database local:/home/myusername/servers/orient/releases/databases/orientdb_connector/development_document test test local
+
 DOCUMENT_DB_PARAMS = {
-  :name => "orientdb_connector/development_document",
-  :type => "document"
+:name => "orientdb_connector/development_document",
+:type => "document"
 }
+
+# create database local:/home/myusername/servers/orient/releases/databases/orientdb_connector/development_graph test test local
+# ALTER DATABASE TYPE graph
 
 GRAPH_DB_PARAMS = {
   :name => "orientdb_connector/development_graph",

@@ -151,3 +151,4 @@ end
 
 require "orientdb_connector/protocol/response_statuses"
 require "orientdb_connector/protocol/commands"
+require "orientdb_connector/protocol/record"
