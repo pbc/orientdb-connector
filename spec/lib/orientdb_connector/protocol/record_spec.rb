@@ -29,7 +29,22 @@ describe OrientDBConnector::Protocol::Record do
     end
   end
 
-  context "#deserialize" do
+  context "#deserialize_string" do
+    it "should remove escaping from double quote characters" do
+      record.deserialize_string('\\"').should == '"'
+      #record.serialize_string('" " " " " " "').should == '\" \" \" \" \" \" \"'
+      #record.serialize_string('"""""""').should == '\"\"\"\"\"\"\"'
+    end
 
+    it "should remove escaping from backslash characters" do
+      pending
+      #record.serialize_string('\\').should == '\\\\'
+      #record.serialize_string('\\ \\ \\ \\ \\').should == '\\\\ \\\\ \\\\ \\\\ \\\\'
+      #record.serialize_string('\\\\\\\\\\').should == '\\\\\\\\\\\\\\\\\\\\'
+    end
+
+    it "should return correctly serialized string" do
+      pending
+    end
   end
 end

@@ -14,6 +14,15 @@ module OrientDBConnector
           "\\" + match
         end
       end
+
+      def deserialize_string(content_string)
+        content_string.gsub(/(\\(\\|"))/) do |match|
+          match[1..-1]
+        end
+      end
+
+
+
     end
   end
 end
