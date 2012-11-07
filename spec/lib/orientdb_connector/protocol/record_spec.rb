@@ -38,4 +38,12 @@ describe OrientDBConnector::Protocol::Record do
       record.deserialize_string('\\\\\\\\\\\\\\\\\\\\').should == '\\\\\\\\\\'
     end
   end
+
+  context "#encode_binary_content" do
+
+  end
+
+  context "#decode_binary_content" do
+    
+  end
 end
