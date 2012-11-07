@@ -23,28 +23,19 @@ describe OrientDBConnector::Protocol::Record do
       record.serialize_string('\\ \\ \\ \\ \\').should == '\\\\ \\\\ \\\\ \\\\ \\\\'
       record.serialize_string('\\\\\\\\\\').should == '\\\\\\\\\\\\\\\\\\\\'
     end
-
-    it "should return correctly serialized string" do
-      pending
-    end
   end
 
   context "#deserialize_string" do
     it "should remove escaping from double quote characters" do
-      record.deserialize_string('\\"').should == '"'
-      #record.serialize_string('" " " " " " "').should == '\" \" \" \" \" \" \"'
-      #record.serialize_string('"""""""').should == '\"\"\"\"\"\"\"'
+      record.deserialize_string('\"').should == '"'
+      record.deserialize_string('\\" \\" \\" \\" \\" \\" \\"').should == '" " " " " " "'
+      record.deserialize_string('\\"\\"\\"\\"\\"\\"\\"').should == '"""""""'
     end
 
     it "should remove escaping from backslash characters" do
-      pending
-      #record.serialize_string('\\').should == '\\\\'
-      #record.serialize_string('\\ \\ \\ \\ \\').should == '\\\\ \\\\ \\\\ \\\\ \\\\'
-      #record.serialize_string('\\\\\\\\\\').should == '\\\\\\\\\\\\\\\\\\\\'
-    end
-
-    it "should return correctly serialized string" do
-      pending
+      record.deserialize_string('\\\\').should == '\\'
+      record.deserialize_string('\\\\ \\\\ \\\\ \\\\ \\\\').should == '\\ \\ \\ \\ \\'
+      record.deserialize_string('\\\\\\\\\\\\\\\\\\\\').should == '\\\\\\\\\\'
     end
   end
 end
