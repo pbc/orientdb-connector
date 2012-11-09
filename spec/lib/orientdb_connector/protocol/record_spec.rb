@@ -39,6 +39,12 @@ describe OrientDBConnector::Protocol::Record do
     end
   end
 
+  context "#enclose_string" do
+    it "should return string enclosed with double quote characters" do
+      record.enclose_string("foobar").should == '"foobar"'
+    end
+  end
+
   context "#encode_binary_content" do
 
     it "should encode binary content correctly using base64" do
@@ -59,4 +65,6 @@ describe OrientDBConnector::Protocol::Record do
       record.decode_binary_content(encoded_content).should == decoded_content
     end
   end
+
+
 end

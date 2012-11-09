@@ -23,6 +23,33 @@ module OrientDBConnector
         end
       end
 
+      def enclose_string(str)
+        '"' + str + '"'
+      end
+
+      def serialize_number(number)
+        number.to_s +
+      end
+
+      def number_type_code(number)
+        case number.class
+        when Float
+          "f"
+        when Integer && number < 256
+          ""
+        when Integer && number < 256 ^ 2
+          ""
+        when Integer && number < 256 ^ 4
+          ""
+        when Integer && number < 256 ^ 8
+          ""
+        end
+      end
+
+      def deserialize_number(number)
+        #number
+      end
+
       def encode_binary_content(binary_content)
         "_" + Base64.encode64(binary_content.to_s).to_s.gsub("\n", "") + "_"
       end
