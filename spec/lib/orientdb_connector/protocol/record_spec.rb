@@ -90,8 +90,10 @@ describe OrientDBConnector::Protocol::Record do
   end
 
   context "#number_type_code" do
-    it "should " do
-      pending
+    context "when provided number is a Float" do
+      it "should return 'f'" do
+        record.number_type_code(1234.12).should == "f"
+      end
     end
   end
 

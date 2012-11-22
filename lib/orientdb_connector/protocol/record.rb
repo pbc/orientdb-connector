@@ -44,20 +44,20 @@ module OrientDBConnector
       end
 
       def number_type_code(number)
-        case number.class
-        when Float
+        number_class = number.class
+        if number_class == Float
           "f"
-        when Integer && -128 <= number && number <= 127
+        elsif number_class == Integer && -128 <= number && number <= 127
           "b"
-        when Integer && -32768 <= number && number <= 32767
+        elsif number_class == Integer && -32768 <= number && number <= 32767
           "s"
-        when Integer && -2147483648 <= number && number <= 2147483647
+        elsif number_class == Integer && -2147483648 <= number && number <= 2147483647
           ""
-        when Integer && -9223372036854775808 <= number && number <= 9223372036854775808
+        elsif number_class == Integer && -9223372036854775808 <= number && number <= 9223372036854775808
           "l"
-        when Integer && (-9223372036854775808 > number || number > 9223372036854775808)
+        elsif number_class == Integer && (-9223372036854775808 > number || number > 9223372036854775808)
           "d"
-        when BigDecimal
+        elsif number_class == BigDecimal
           "c"
         end
       end
