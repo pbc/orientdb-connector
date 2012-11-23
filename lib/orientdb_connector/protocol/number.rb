@@ -9,10 +9,6 @@ module OrientDBConnector
         @value = initial_value
       end
 
-      def value_class
-        @value.class
-      end
-
       def to_s
         if has_float_value?
           value.to_s.upcase
