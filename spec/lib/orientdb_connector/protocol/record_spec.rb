@@ -45,58 +45,6 @@ describe OrientDBConnector::Protocol::Record do
     end
   end
 
-  context "#serialize_number" do
-    it "should " do
-      pending
-    end
-  end
-
-  context "#number_to_string" do
-    context "when provided number is an Integer >= 0" do
-      it "should return correct string" do
-        record.number_to_string(1234).should == "1234"
-      end
-    end
-
-    context "when provided number is an Integer < 0" do
-      it "should return correct string" do
-        record.number_to_string(-1234).should == "-1234"
-      end
-    end
-
-    context "when provided number is a Float >= 0.0" do
-      it "should return correct string" do
-        record.number_to_string(1234.5555666).should == "1234.5555666"
-      end
-    end
-
-    context "when provided number is a Float < 0.0" do
-      it "should return correct string" do
-        record.number_to_string(-1234.5555666).should == "-1234.5555666"
-      end
-    end
-
-    context "when provided number is a BigDecimal >= 0.0" do
-      it "should return correct string" do
-        record.number_to_string(BigDecimal.new("12342345234523452345234523452345234523456575.55556663453245234523452345234523453245")).should == "12342345234523452345234523452345234523456575.55556663453245234523452345234523453245"
-      end
-    end
-
-    context "when provided number is a BigDecimal < 0.0" do
-      it "should return correct string" do
-        record.number_to_string(BigDecimal.new("-12342345234523452345234523452345234523456575.55556663453245234523452345234523453245")).should == "-12342345234523452345234523452345234523456575.55556663453245234523452345234523453245"
-      end
-    end
-  end
-
-  context "#number_type_code" do
-    context "when provided number is a Float" do
-      it "should return 'f'" do
-        record.number_type_code(1234.12).should == "f"
-      end
-    end
-  end
-
   context "#deserialize_number" do
     it "should " do
       pending

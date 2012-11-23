@@ -1,4 +1,5 @@
 require "bindata"
+require "bigdecimal"
 require "orientdb_connector/version"
 
 module OrientDBConnector
