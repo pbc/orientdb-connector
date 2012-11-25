@@ -43,7 +43,7 @@ describe OrientDBConnector::Protocol::Number do
   end
 
   context "#type_code" do
-    context "when current value is a Float" do
+    context "when current value is of 'float' type" do
       it "should return 'f'" do
         num = number_class.new(nil)
         num.stub(:is_float_type?).and_return(true)
@@ -51,8 +51,12 @@ describe OrientDBConnector::Protocol::Number do
       end
     end
 
-    context "when current value is an Integer" do
-
+    context "when current value is of 'double' type" do
+      it "should return 'd'" do
+        num = number_class.new(nil)
+        num.stub(:is_double_type?).and_return(true)
+        num.type_code.should == "d"
+      end
     end
 
   end
