@@ -68,11 +68,27 @@ module OrientDBConnector
       end
 
       def is_float_type?
-        has_float_value? && 1.40129846432481707e-45 <= value && value <= 3.40282346638528860e+38
+        has_float_value? && (is_positive_float_type? || is_negative_float_type?)
+      end
+
+      def is_positive_float_type?
+        1.40129846432481707e-45 <= value && value <= 3.40282346638528860e+38
+      end
+
+      def is_negative_float_type?
+        -1.40129846432481707e-45 >= value && value >= -3.40282346638528860e+38
       end
 
       def is_double_type?
-        has_float_value? && 4.94065645841246544e-324 <= value && value <= 1.79769313486231570e+308
+        has_float_value? && (is_positive_double_type? || is_negative_double_type?)
+      end
+
+      def is_positive_double_type?
+        4.94065645841246544e-324 <= value && value <= 1.79769313486231570e+308
+      end
+
+      def is_negative_double_type?
+        -4.94065645841246544e-324 >= value && value >= -1.79769313486231570e+308
       end
 
       def is_big_decimal_type?

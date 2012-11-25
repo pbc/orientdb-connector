@@ -45,110 +45,145 @@ describe OrientDBConnector::Protocol::Number do
   context "#type_code" do
     context "when current value is a Float" do
       it "should return 'f'" do
-        number_class.new(1234.12).type_code.should == "f"
+        num = number_class.new(nil)
+        num.stub(:is_float_type?).and_return(true)
+        num.type_code.should == "f"
       end
     end
 
     context "when current value is an Integer" do
 
-      context "number == -128" do
-        it "should return 'b'" do
-          number_class.new(-128).type_code.should == "b"
-        end
-      end
+    end
 
-      context "-128 < number < 127" do
-        it "should return 'b'" do
-          number_class.new(12).type_code.should == "b"
-        end
-      end
+  end
 
-      context "number == 127" do
-        it "should return 'b'" do
-          number_class.new(127).type_code.should == "b"
-        end
-      end
-
-      context "number == -32768" do
-        it "should return 's'" do
-          number_class.new(-32768).type_code.should == "s"
-        end
-      end
-
-      context "-32768 < number < -128" do
-        it "should return 's'" do
-          number_class.new(-129).type_code.should == "s"
-          number_class.new(-32767).type_code.should == "s"
-        end
-      end
-
-      context "127 < number < 32767" do
-        it "should return 's'" do
-          number_class.new(128).type_code.should == "s"
-          number_class.new(32766).type_code.should == "s"
-        end
-      end
-
-      context "number == 32767" do
-        it "should return 's'" do
-          number_class.new(32767).type_code.should == "s"
-        end
-      end
-
-      context "number == -2147483648" do
-        it "should return empty string" do
-          number_class.new(-2147483648).type_code.should == ""
-        end
-      end
-
-      context "-2147483648 < number < -32768" do
-        it "should return empty string" do
-          number_class.new(-32769).type_code.should == ""
-          number_class.new(-2147483647).type_code.should == ""
-        end
-      end
-
-      context "32767 < number < 2147483647" do
-        it "should return empty string" do
-          number_class.new(32768).type_code.should == ""
-          number_class.new(2147483646).type_code.should == ""
-        end
-      end
-
-      context "number == 2147483647" do
-        it "should return empty string" do
-          number_class.new(2147483647).type_code.should == ""
-        end
-      end
-
-      context "number == -9223372036854775808" do
-        it "should return 'l'" do
-          number_class.new(-9223372036854775808).type_code.should == "l"
-        end
-      end
-
-      context "-9223372036854775808 < number < -2147483648" do
-        it "should return 'l'" do
-          number_class.new(-2147483649).type_code.should == "l"
-          number_class.new(-9223372036854775807).type_code.should == "l"
-        end
-      end
-
-      context "2147483647 < number < 9223372036854775807" do
-        it "should return 'l'" do
-          number_class.new(2147483648).type_code.should == "l"
-          number_class.new(9223372036854775806).type_code.should == "l"
-        end
-      end
-
-      context "number == 9223372036854775807" do
-        it "should return 'l'" do
-          number_class.new(9223372036854775807).type_code.should == "l"
-        end
-      end
-
-
-
+  context "#has_integer_value?" do
+    it "should return true if #value is an Integer" do
+      number_class.new(123).has_integer_value?.should == true
     end
   end
+
+  context "#has_float_value?" do
+    it "should return true if #value is a Float" do
+      number_class.new(123.12).has_float_value?.should == true
+    end
+  end
+
+  context "#has_big_decimal_value?" do
+    it "should return true if #value is a Float" do
+      number_class.new(BigDecimal.new("123.12")).has_big_decimal_value?.should == true
+    end
+  end
+
+
+  context "#is_byte_type?" do
+
+    context "#value == -128" do
+      it "should be true" do
+        number_class.new(-128).is_byte_type?.should == true
+      end
+    end
+
+    context "-128 < #value < 127" do
+      it "should be true" do
+        number_class.new(12).is_byte_type?.should == true
+      end
+    end
+
+    context "#value == 127" do
+      it "should be true" do
+        number_class.new(127).is_byte_type?.should == true
+      end
+    end
+
+  end
+
+  context "#is_short_type?" do
+
+    context "#value == -32768" do
+      it "should be true" do
+        number_class.new(-32768).is_short_type?.should == true
+      end
+    end
+
+    context "-32768 < #value < -128" do
+      it "should be true" do
+        number_class.new(-129).is_short_type?.should == true
+        number_class.new(-32767).is_short_type?.should == true
+      end
+    end
+
+    context "127 < #value < 32767" do
+      it "should be true" do
+        number_class.new(128).is_short_type?.should == true
+        number_class.new(32766).is_short_type?.should == true
+      end
+    end
+
+    context "#value == 32767" do
+      it "should be true" do
+        number_class.new(32767).is_short_type?.should == true
+      end
+    end
+    
+  end
+  
+  context "#is_int_type?" do
+
+    context "#value == -2147483648" do
+      it "should be true" do
+        number_class.new(-2147483648).is_int_type?.should == true
+      end
+    end
+
+    context "-2147483648 < #value < -32768" do
+      it "should be true" do
+        number_class.new(-32769).is_int_type?.should == true
+        number_class.new(-2147483647).is_int_type?.should == true
+      end
+    end
+
+    context "32767 < #value < 2147483647" do
+      it "should be true" do
+        number_class.new(32768).is_int_type?.should == true
+        number_class.new(2147483646).is_int_type?.should == true
+      end
+    end
+
+    context "#value == 2147483647" do
+      it "should be true" do
+        number_class.new(2147483647).is_int_type?.should == true
+      end
+    end
+    
+  end
+  
+  context "#is_long_type?" do
+    context "#value == -9223372036854775808" do
+      it "should be true" do
+        number_class.new(-9223372036854775808).is_long_type?.should == true
+      end
+    end
+
+    context "-9223372036854775808 < #value < -2147483648" do
+      it "should be true" do
+        number_class.new(-2147483649).is_long_type?.should == true
+        number_class.new(-9223372036854775807).is_long_type?.should == true
+      end
+    end
+
+    context "2147483647 < #value < 9223372036854775807" do
+      it "should be true" do
+        number_class.new(2147483648).is_long_type?.should == true
+        number_class.new(9223372036854775806).is_long_type?.should == true
+      end
+    end
+
+    context "#value == 9223372036854775807" do
+      it "should be true" do
+        number_class.new(9223372036854775807).is_long_type?.should == true
+      end
+    end
+  end
+
 end
