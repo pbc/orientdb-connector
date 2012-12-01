@@ -233,34 +233,211 @@ describe OrientDBConnector::Protocol::Number do
   end
 
   context "#is_of_float_type?" do
-    # has_float_value? && (is_of_positive_float_type? || is_of_negative_float_type?)
-    context "number is a positive float type" do
 
-      let(:number) { number_class.new(123456.5896) }
-      it "should " do
+    let(:number) { number_class.new(nil) }
 
+    context "none of the conditions is met" do
+
+      it "should be false" do
+        number.is_of_float_type?.should == false
       end
+
+      context "number is of positive float type" do
+        it "should be true" do
+          number.stub(:is_of_positive_float_type?).and_return(true)
+          number.is_of_float_type?.should == true
+        end
+      end
+
+      context "number is of negative float type" do
+        it "should be true" do
+          number.stub(:is_of_negative_float_type?).and_return(true)
+          number.is_of_float_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_positive_float_type?" do
+
+    let(:number) { number_class.new(nil) }
+
+    context "has float value" do
+
+      context "#value == 1.40129846432481707e-45" do
+        it "should be true" do
+          number_class.new(1.40129846432481707e-45).is_of_positive_float_type?.should == true
+        end
+      end
+
+      context "1.40129846432481707e-45 < #value < 3.40282346638528860e+38" do
+        it "should be true" do
+          number_class.new(1.40129846432481708e-45).is_of_positive_float_type?.should == true
+          number_class.new(3.40282346638528859e+38).is_of_positive_float_type?.should == true
+        end
+      end
+
+      context "#value == 3.40282346638528860e+38" do
+        it "should be true" do
+          number_class.new(3.40282346638528860e+38).is_of_positive_float_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_negative_float_type?" do
+
+    let(:number) { number_class.new(nil) }
+
+    context "has float value" do
+
+      context "#value == -1.40129846432481707e-45" do
+        it "should be true" do
+          number_class.new(-1.40129846432481707e-45).is_of_negative_float_type?.should == true
+        end
+      end
+
+      context "-1.40129846432481707e-45 > #value > -3.40282346638528860e+38" do
+        it "should be true" do
+          number_class.new(-1.40129846432481708e-45).is_of_negative_float_type?.should == true
+          number_class.new(-3.40282346638528859e+38).is_of_negative_float_type?.should == true
+        end
+      end
+
+      context "#value == -3.40282346638528860e+38" do
+        it "should be true" do
+          number_class.new(-3.40282346638528860e+38).is_of_negative_float_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_double_type?" do
+
+    let(:number) { number_class.new(nil) }
+
+    context "none of the conditions is met" do
+
+      it "should be false" do
+        number.is_of_double_type?.should == false
+      end
+
+      context "number is of positive double type" do
+        it "should be true" do
+          number.stub(:is_of_positive_double_type?).and_return(true)
+          number.is_of_double_type?.should == true
+        end
+      end
+
+      context "number is of negative double type" do
+        it "should be true" do
+          number.stub(:is_of_negative_double_type?).and_return(true)
+          number.is_of_double_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_positive_double_type?" do
+
+    let(:number) { number_class.new(nil) }
+
+    context "has float value" do
+
+      context "#value == 4.94065645841246544e-324" do
+        it "should be true" do
+          number_class.new(4.94065645841246544e-324).is_of_positive_double_type?.should == true
+        end
+      end
+
+      context "4.94065645841246544e-324 < #value < 1.79769313486231570e+308" do
+        it "should be true" do
+          number_class.new(4.94065645841246545e-324).is_of_positive_double_type?.should == true
+          number_class.new(1.79769313486231569e+308).is_of_positive_double_type?.should == true
+        end
+      end
+
+      context "#value == 1.79769313486231570e+308" do
+        it "should be true" do
+          number_class.new(1.79769313486231570e+308).is_of_positive_double_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_negative_double_type?" do
+    let(:number) { number_class.new(nil) }
+
+    context "has double value" do
+
+      context "#value == -4.94065645841246544e-324" do
+        it "should be true" do
+          number_class.new(-4.94065645841246544e-324).is_of_negative_double_type?.should == true
+        end
+      end
+
+      context "-4.94065645841246544e-324 > #value > -1.79769313486231570e+308" do
+        it "should be true" do
+          number_class.new(-4.94065645841246545e-324).is_of_negative_double_type?.should == true
+          number_class.new(-1.79769313486231569e+308).is_of_negative_double_type?.should == true
+        end
+      end
+
+      context "#value == -1.79769313486231570e+308" do
+        it "should be true" do
+          number_class.new(-1.79769313486231570e+308).is_of_negative_double_type?.should == true
+        end
+      end
+
+    end
+
+  end
+
+  context "#is_of_big_decimal_type?" do
+
+    let(:number) { number_class.new(nil) }
+
+    context "has big decimal value" do
+      it "should be true" do
+        number.stub(:has_big_decimal_value?).and_return(true)
+        number.is_of_big_decimal_type?.should == true
+      end
+    end
+
+    context "hasn't got big decimal value" do
+      it "should be false" do
+        number.stub(:has_big_decimal_value?).and_return(false)
+        number.is_of_big_decimal_type?.should == false
+      end
+    end
+
+  end
+
+  context "#serialize" do
+    it "should " do
+      pending
     end
   end
 
+  context "#deserialize" do
+    it "should " do
+      pending
+    end
+  end
+
+
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
