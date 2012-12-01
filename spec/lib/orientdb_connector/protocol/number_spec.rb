@@ -46,51 +46,57 @@ describe OrientDBConnector::Protocol::Number do
 
     let(:num) { number_class.new(nil) }
 
+    context "when current values type doesn't match any of the required types" do
+      it "should return nil" do
+        num.type_code.should == nil
+      end
+    end
+
     context "when current value is of 'float' type" do
       it "should return 'f'" do
-        num.stub(:is_float_type?).and_return(true)
+        num.stub(:is_of_float_type?).and_return(true)
         num.type_code.should == "f"
       end
     end
 
     context "when current value is of 'double' type" do
       it "should return 'd'" do
-        num.stub(:is_double_type?).and_return(true)
+        num.stub(:is_of_double_type?).and_return(true)
         num.type_code.should == "d"
       end
     end
 
     context "when current value is of 'big decimal' type" do
       it "should return 'c'" do
-        num.stub(:is_big_decimal_type?).and_return(true)
+        num.stub(:is_of_big_decimal_type?).and_return(true)
         num.type_code.should == "c"
       end
     end
 
     context "when current value is of 'byte' type" do
       it "should return 'b'" do
-        num.stub(:is_byte_type?).and_return(true)
+        num.stub(:is_of_byte_type?).and_return(true)
         num.type_code.should == "b"
       end
     end
 
     context "when current value is of 'short' type" do
       it "should return 's'" do
-        num.stub(:is_short_type?).and_return(true)
+        num.stub(:is_of_short_type?).and_return(true)
         num.type_code.should == "s"
       end
     end
 
     context "when current value is of 'int' type" do
       it "should return empty string" do
-        num.stub(:is_int_type?).and_return(true)
+        num.stub(:is_of_int_type?).and_return(true)
         num.type_code.should == ""
       end
     end
 
     context "when current value is of 'long' type" do
       it "should return 'l'" do
-        num.stub(:is_long_type?).and_return(true)
+        num.stub(:is_of_long_type?).and_return(true)
         num.type_code.should == "l"
       end
     end
@@ -116,114 +122,147 @@ describe OrientDBConnector::Protocol::Number do
   end
 
 
-  context "#is_byte_type?" do
+  context "#is_of_byte_type?" do
 
     context "#value == -128" do
       it "should be true" do
-        number_class.new(-128).is_byte_type?.should == true
+        number_class.new(-128).is_of_byte_type?.should == true
       end
     end
 
     context "-128 < #value < 127" do
       it "should be true" do
-        number_class.new(12).is_byte_type?.should == true
+        number_class.new(12).is_of_byte_type?.should == true
       end
     end
 
     context "#value == 127" do
       it "should be true" do
-        number_class.new(127).is_byte_type?.should == true
+        number_class.new(127).is_of_byte_type?.should == true
       end
     end
 
   end
 
-  context "#is_short_type?" do
+  context "#is_of_short_type?" do
 
     context "#value == -32768" do
       it "should be true" do
-        number_class.new(-32768).is_short_type?.should == true
+        number_class.new(-32768).is_of_short_type?.should == true
       end
     end
 
     context "-32768 < #value < -128" do
       it "should be true" do
-        number_class.new(-129).is_short_type?.should == true
-        number_class.new(-32767).is_short_type?.should == true
+        number_class.new(-129).is_of_short_type?.should == true
+        number_class.new(-32767).is_of_short_type?.should == true
       end
     end
 
     context "127 < #value < 32767" do
       it "should be true" do
-        number_class.new(128).is_short_type?.should == true
-        number_class.new(32766).is_short_type?.should == true
+        number_class.new(128).is_of_short_type?.should == true
+        number_class.new(32766).is_of_short_type?.should == true
       end
     end
 
     context "#value == 32767" do
       it "should be true" do
-        number_class.new(32767).is_short_type?.should == true
+        number_class.new(32767).is_of_short_type?.should == true
       end
     end
     
   end
   
-  context "#is_int_type?" do
+  context "#is_of_int_type?" do
 
     context "#value == -2147483648" do
       it "should be true" do
-        number_class.new(-2147483648).is_int_type?.should == true
+        number_class.new(-2147483648).is_of_int_type?.should == true
       end
     end
 
     context "-2147483648 < #value < -32768" do
       it "should be true" do
-        number_class.new(-32769).is_int_type?.should == true
-        number_class.new(-2147483647).is_int_type?.should == true
+        number_class.new(-32769).is_of_int_type?.should == true
+        number_class.new(-2147483647).is_of_int_type?.should == true
       end
     end
 
     context "32767 < #value < 2147483647" do
       it "should be true" do
-        number_class.new(32768).is_int_type?.should == true
-        number_class.new(2147483646).is_int_type?.should == true
+        number_class.new(32768).is_of_int_type?.should == true
+        number_class.new(2147483646).is_of_int_type?.should == true
       end
     end
 
     context "#value == 2147483647" do
       it "should be true" do
-        number_class.new(2147483647).is_int_type?.should == true
+        number_class.new(2147483647).is_of_int_type?.should == true
       end
     end
     
   end
   
-  context "#is_long_type?" do
+  context "#is_of_long_type?" do
     context "#value == -9223372036854775808" do
       it "should be true" do
-        number_class.new(-9223372036854775808).is_long_type?.should == true
+        number_class.new(-9223372036854775808).is_of_long_type?.should == true
       end
     end
 
     context "-9223372036854775808 < #value < -2147483648" do
       it "should be true" do
-        number_class.new(-2147483649).is_long_type?.should == true
-        number_class.new(-9223372036854775807).is_long_type?.should == true
+        number_class.new(-2147483649).is_of_long_type?.should == true
+        number_class.new(-9223372036854775807).is_of_long_type?.should == true
       end
     end
 
     context "2147483647 < #value < 9223372036854775807" do
       it "should be true" do
-        number_class.new(2147483648).is_long_type?.should == true
-        number_class.new(9223372036854775806).is_long_type?.should == true
+        number_class.new(2147483648).is_of_long_type?.should == true
+        number_class.new(9223372036854775806).is_of_long_type?.should == true
       end
     end
 
     context "#value == 9223372036854775807" do
       it "should be true" do
-        number_class.new(9223372036854775807).is_long_type?.should == true
+        number_class.new(9223372036854775807).is_of_long_type?.should == true
+      end
+    end
+  end
+
+  context "#is_of_float_type?" do
+    # has_float_value? && (is_of_positive_float_type? || is_of_negative_float_type?)
+    context "number is a positive float type" do
+
+      let(:number) { number_class.new(123456.5896) }
+      it "should " do
+
       end
     end
   end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
