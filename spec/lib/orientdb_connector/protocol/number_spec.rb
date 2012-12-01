@@ -43,9 +43,11 @@ describe OrientDBConnector::Protocol::Number do
   end
 
   context "#type_code" do
+
+    let(:num) { number_class.new(nil) }
+
     context "when current value is of 'float' type" do
       it "should return 'f'" do
-        num = number_class.new(nil)
         num.stub(:is_float_type?).and_return(true)
         num.type_code.should == "f"
       end
@@ -53,9 +55,43 @@ describe OrientDBConnector::Protocol::Number do
 
     context "when current value is of 'double' type" do
       it "should return 'd'" do
-        num = number_class.new(nil)
         num.stub(:is_double_type?).and_return(true)
         num.type_code.should == "d"
+      end
+    end
+
+    context "when current value is of 'big decimal' type" do
+      it "should return 'c'" do
+        num.stub(:is_big_decimal_type?).and_return(true)
+        num.type_code.should == "c"
+      end
+    end
+
+    context "when current value is of 'byte' type" do
+      it "should return 'b'" do
+        num.stub(:is_byte_type?).and_return(true)
+        num.type_code.should == "b"
+      end
+    end
+
+    context "when current value is of 'short' type" do
+      it "should return 's'" do
+        num.stub(:is_short_type?).and_return(true)
+        num.type_code.should == "s"
+      end
+    end
+
+    context "when current value is of 'int' type" do
+      it "should return empty string" do
+        num.stub(:is_int_type?).and_return(true)
+        num.type_code.should == ""
+      end
+    end
+
+    context "when current value is of 'long' type" do
+      it "should return 'l'" do
+        num.stub(:is_long_type?).and_return(true)
+        num.type_code.should == "l"
       end
     end
 
