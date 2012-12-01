@@ -424,9 +424,14 @@ describe OrientDBConnector::Protocol::Number do
   end
 
   context "#serialize" do
-    it "should " do
-      pending
+
+    let(:number) { number_class.new(nil) }
+
+    it "should return correct string" do
+      number.stub(:to_s => "foobar", :type_code => "ABC")
+      number.serialize.should == "foobarABC"
     end
+
   end
 
   context "#deserialize" do
